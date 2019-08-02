@@ -34,4 +34,12 @@ figure {
   margin: 0;
   padding: 0;
 }
+a {
+  transition: color 0.3s, background 0.3s;
+  color: #3498db;
+  text-decoration: none;
+  &:hover {
+    color: #ffc670;
+  }
+}
 </style>

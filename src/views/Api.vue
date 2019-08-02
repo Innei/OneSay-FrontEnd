@@ -6,17 +6,32 @@
     </header>
 
     <div class="body">
-      <h2>一言 API</h2>
-
-      <p>一言即一句话, 这是一个我用来记录突然迸发的人生感想的平台, 他也用于记录那些偶然间看到的心灵美句。</p>
-
+      <h3>使用之前</h3>
+      <p>
+        本网站旨在于提供我开发的练手 API, 可能会有不稳定等现象, 如果您的项目已开始使用我提供的 API 服务，则默认视为遵守
+        <router-link to="/notice">本约定</router-link>。
+      </p>
       <h3>累计调用</h3>
 
       <p>一言 API 将会作为我的第一个 API 并开放调用, 截止至 {{getDate.year}} 年 {{getDate.month}} 月 {{getDate.day}} 日已调用次数如下:</p>
 
-      <ul>
-        
-      </ul>
+      <div class="row">
+        <div class="col-4 col-m-2 api-item" align="center" v-for="info in infos" :key="info.name">
+          <h2>{{info.times}}</h2>
+          <p>{{info.name}}</p>
+        </div>
+      </div>
+
+      <h3>接口列表</h3>
+
+      <div class="row full">
+        <round />
+        <round />
+
+        <round />
+        <round />
+        <round />
+      </div>
     </div>
   </div>
 </template>
@@ -42,22 +57,44 @@
       h#{$var}::before {
         content: "# ";
         color: #2ecc71;
-        font-weight: bold
+        font-weight: bold;
+      }
+      h#{$var}:first-child {
+        margin-top: 2rem;
       }
     }
     p {
       margin-bottom: 2rem;
+    }
+    .row {
+      li {
+        display: inline-block;
+      }
+      h2::before {
+        display: none;
+      }
+      .api-item {
+        justify-content: center;
+      }
+      &.full [class*="col-"] {
+        padding: 0;
+        margin-bottom: 0;
+      }
     }
   }
 }
 </style>
 
 <script>
+import "../assets/css/gird.css";
 export default {
   data() {
     return {
-        times: []
+      infos: []
     };
+  },
+  components: {
+    round: () => import("../components/round")
   },
   methods: {},
   computed: {
@@ -72,6 +109,11 @@ export default {
         day
       };
     }
+  },
+  async created() {
+    const data = (await this.$http.get("/info")).data.value;
+    data.times = data.times.value;
+    this.infos.push(data);
   }
 };
 </script>

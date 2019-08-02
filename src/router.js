@@ -16,6 +16,10 @@ export default new Router({
         {
           path: '/',
           component: () => import('./views/Api.vue')
+        },
+        {
+          path: '/notice',
+          component: () => import('./views/Notice.vue')
         }
       ]
     }
