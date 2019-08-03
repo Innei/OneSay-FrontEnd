@@ -18,19 +18,14 @@
       <div class="row">
         <div class="col-4 col-m-2 api-item" align="center" v-for="info in infos" :key="info.name">
           <h2>{{info.times}}</h2>
-          <p>{{info.name}}</p>
+          <p>{{info.name ? info.name : '加载中'}}</p>
         </div>
       </div>
 
       <h3>接口列表</h3>
 
       <div class="row full">
-        <round />
-        <round />
-
-        <round />
-        <round />
-        <round />
+        <square v-for="api in apiList" :key="api.name" :name="api.name" :info="api.info" />
       </div>
     </div>
   </div>
@@ -86,17 +81,26 @@
 </style>
 
 <script>
-import "../assets/css/gird.css";
 export default {
   data() {
     return {
-      infos: []
+      infos: [],
+      apiList: []
     };
   },
   components: {
-    round: () => import("../components/round")
+    square: () => import("../components/square")
   },
-  methods: {},
+  methods: {
+    async updateTimes() {
+      let data = (await this.$http.get("/info")).data.value;
+      data.times = data.times.value;
+      if (data.length === undefined) {
+        data = Array.of(data);
+      }
+      this.infos = data;
+    }
+  },
   computed: {
     getDate() {
       const now = new Date(Date.now());
@@ -111,9 +115,10 @@ export default {
     }
   },
   async created() {
-    const data = (await this.$http.get("/info")).data.value;
-    data.times = data.times.value;
-    this.infos.push(data);
+    setInterval(async() => await this.updateTimes(), 5000);
+
+    const apiList = (await this.$http.get("/info/query/api-list")).data.value;
+    this.apiList = apiList;
   }
 };
 </script>

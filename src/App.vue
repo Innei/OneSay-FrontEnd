@@ -10,7 +10,9 @@ html {
   font: 16px/1.5 "Microsoft Yahei", "PingFang SC", "Hiragino Sans GB",
     sans-serif;
 }
-
+*{
+  box-sizing: border-box
+}
 html,
 body,
 dl,

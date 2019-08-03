@@ -3,7 +3,7 @@
     <nav-bar></nav-bar>
     <main>
       <transition name="slide-fade" mode="out-in">
-        <router-view></router-view>
+        <router-view class="body"></router-view>
       </transition>
       <foot-er></foot-er>
     </main>
@@ -26,6 +26,10 @@ main {
   margin: auto;
   padding-left: 5rem;
   max-width: 45rem;
+}
+.body {
+  margin-top: 1rem;
+  margin-bottom: 4rem
 }
 .slide-fade-enter-active {
   transition: all .5s ease;

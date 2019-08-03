@@ -24,7 +24,7 @@ export default {
     };
   },
   async created() {
-    const data = (await this.$http.get("info/my-info")).data.value;
+    const data = (await this.$http.get("info/query/my-info")).data.value;
     this.info = data
   }
 };
