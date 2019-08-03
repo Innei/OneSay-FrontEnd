@@ -1,12 +1,12 @@
 <template>
   <div class="col-6 col-m-4">
-    <a class="box first" href="#" :style="color ? 'background-color:' + color : ''">
+    <router-link class="box first" :to="url" :style="color ? 'background-color:' + color : ''">
       <h3>
         <i class="fa fa-music"></i>
         {{name}}
       </h3>
       <p>{{info}}</p>
-    </a>
+    </router-link>
   </div>
 </template>
 
@@ -15,6 +15,11 @@ export default {
   props: {
     name: { type: String, require: true },
     info: String,
+    url: {
+      type: String,
+      require: true,
+      default: "#"
+    },
     color: {
       type: String,
       default: function() {

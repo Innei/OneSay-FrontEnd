@@ -10,7 +10,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
+      // name: 'home',
       component: Home,
       children: [
         {
@@ -20,6 +20,10 @@ export default new Router({
         {
           path: '/notice',
           component: () => import('./views/Notice.vue')
+        },
+        {
+          path: '/one-say',
+          component: () => import('./views/OneSay.vue')
         }
       ]
     }

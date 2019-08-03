@@ -25,7 +25,7 @@
       <h3>接口列表</h3>
 
       <div class="row full">
-        <square v-for="api in apiList" :key="api.name" :name="api.name" :info="api.info" />
+        <square v-for="api in apiList" :key="api.name" :name="api.name" :info="api.info" :url="api.url" />
       </div>
     </div>
   </div>
@@ -112,10 +112,14 @@ export default {
         month,
         day
       };
+    },
+    location() {
+      return window.location.href;
     }
   },
   async created() {
-    setInterval(async() => await this.updateTimes(), 5000);
+    this.updateTimes();
+    setInterval(async () => await this.updateTimes(), 5000);
 
     const apiList = (await this.$http.get("/info/query/api-list")).data.value;
     this.apiList = apiList;
