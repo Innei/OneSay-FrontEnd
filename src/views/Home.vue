@@ -29,16 +29,28 @@ main {
 }
 .body {
   margin-top: 1rem;
-  margin-bottom: 4rem
+  margin-bottom: 4rem;
+  min-height: 70vh;
 }
 .slide-fade-enter-active {
-  transition: all .5s ease;
+  transition: all 0.5s ease;
 }
 .slide-fade-leave-active {
-  transition: all .5s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+  transition: all 0.5s cubic-bezier(1, 0.5, 0.8, 1);
 }
-.slide-fade-enter, .slide-fade-leave-to {
+.slide-fade-enter,
+.slide-fade-leave-to {
   transform: translateX(10px);
   opacity: 0;
+}
+@media screen and (max-width: 900px) {
+  main {
+    padding-left: 2rem;
+  }
+}
+@media screen and (max-width: 600px) {
+  main {
+    padding-right: 2rem;
+  }
 }
 </style>

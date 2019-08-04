@@ -1,9 +1,14 @@
 <template>
-  <a :href="url" :title="name">
-    <font-awesome-icon :icon="icon" class="icon" />
-
-    {{name}}
-  </a>
+  <div>
+    <a :href="url" :title="name" v-if="!isLocation">
+      <font-awesome-icon :icon="icon" class="icon" v-if="icon" />
+      {{name}}
+    </a>
+    <router-link :to="locationRoute" v-else>
+      <font-awesome-icon :icon="icon" class="icon" v-if="icon" />
+      {{name}}
+    </router-link>
+  </div>
 </template>
 
 <script>
@@ -18,7 +23,17 @@ export default {
       type: String,
       require: true
     },
-    icon: {}
+    icon: {
+      default: ""
+    },
+    isLocation: {
+      type: Boolean,
+      default: false
+    },
+    locationRoute: {
+      default: "",
+      type: String
+    }
   }
 };
 </script>
