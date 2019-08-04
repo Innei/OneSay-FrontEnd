@@ -1,9 +1,9 @@
 <template>
   <div>
-    <nav-bar></nav-bar>
+    <nav-bar :navbarActive="navbarActive"></nav-bar>
     <main>
       <transition name="slide-fade" mode="out-in">
-        <router-view class="body"></router-view>
+        <router-view class="body" v-on:viewIn="closeNavbar"></router-view>
       </transition>
       <foot-er></foot-er>
     </main>
@@ -17,6 +17,16 @@ export default {
   components: {
     "nav-bar": navBar,
     "foot-er": footer
+  },
+  data() {
+    return {
+      navbarActive: false
+    };
+  },
+  methods: {
+    closeNavbar() {
+      this.navbarActive = false;
+    }
   }
 };
 </script>

@@ -87,6 +87,9 @@ export default {
   async created() {
     const data = (await this.$http.get("info/query/my-info")).data.value;
     this.info = data;
+    this.$emit("viewIn");
+
+    document.head.querySelector("title").innerText = "约定 | 静之森";
   }
 };
 </script>

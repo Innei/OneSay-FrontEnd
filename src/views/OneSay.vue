@@ -1,5 +1,5 @@
 <template>
-  <page title="一言 API">
+  <page title="一言 API" info="一个简单的随机一言 API">
     <section>
       <h3>使用方法</h3>
       <p></p>

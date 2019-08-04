@@ -99,6 +99,9 @@ export default {
         data = Array.of(data);
       }
       this.infos = data;
+    },
+    changeTitle(str) {
+      document.head.querySelector('title').innerText = str
     }
   },
   computed: {
@@ -123,6 +126,9 @@ export default {
 
     const apiList = (await this.$http.get("/info/query/api-list")).data.value;
     this.apiList = apiList;
+    this.$emit('viewIn');
+
+    this.changeTitle('静之森的 API')
   }
 };
 </script>

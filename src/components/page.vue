@@ -6,7 +6,7 @@
     </header>
 
     <div class="body">
-        <slot></slot>
+      <slot></slot>
     </div>
   </div>
 </template>
@@ -21,6 +21,15 @@ export default {
     info: {
       type: String
     }
+  },
+  methods: {
+    changeTitle(str) {
+      document.head.querySelector("title").innerText = str;
+    }
+  },
+  created() {
+    this.$emit("viewIn");
+    this.changeTitle(this.title + " | 静之森")
   }
 };
 </script>

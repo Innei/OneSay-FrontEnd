@@ -1,6 +1,11 @@
 <template>
   <div class="navbar" :class="navbarActive ? 'active': ''">
-    <div class="toggle" @click="toggleNavbar"></div>
+    <div class="toggle" @click="toggleNavbar" :class="navbarActive ? 'active' : ''">
+      <transition mode="out-in" name="fade">
+        <font-awesome-icon icon="long-arrow-alt-right" class="icon" v-if="!navbarActive" />
+        <font-awesome-icon icon="long-arrow-alt-left" class="icon" v-else />
+      </transition>
+    </div>
     <div class="wrap">
       <div class="header">静之森 | API</div>
       <div class="items">
@@ -20,6 +25,15 @@
 </template>
 
 <style lang="scss" scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+
 .navbar {
   top: 0;
   left: 0;
@@ -60,12 +74,15 @@
     border-right-color: #fff;
   }
 }
-
+.toggle {
+  display: none;
+}
 @media screen and (max-width: 900px) {
   .sidebar.active .toggle {
     background: #2ecc71;
   }
   .toggle {
+    display: block;
     top: 0;
     left: 10em;
     z-index: 3;
@@ -77,6 +94,16 @@
     text-align: center;
     background: #3498db;
     box-shadow: 0.25em 0 0.5em rgba(0, 0, 0, 0.2);
+    transition: background 0.5s;
+    &.active {
+      background: #2ecc71;
+    }
+    .icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
   }
   .navbar {
     transform: translateX(-10em);
@@ -90,9 +117,15 @@
 
 <script>
 export default {
+  props: {
+    navbarActive: {
+      type: Boolean,
+      default: false
+    }
+  },
   data() {
     return {
-      navbarActive: false,
+      // navbarActive: false,
       items: [
         {
           name: "首页",
@@ -125,8 +158,8 @@ export default {
     };
   },
   methods: {
-    toggleNavbar(){
-      this.navbarActive = !this.navbarActive
+    toggleNavbar() {
+      this.navbarActive = !this.navbarActive;
     }
   },
   components: {
