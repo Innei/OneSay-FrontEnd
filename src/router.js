@@ -10,7 +10,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      // name: 'home',
+      name: 'home',
       component: Home,
       children: [
         {
@@ -22,10 +22,14 @@ export default new Router({
           component: () => import('./views/Notice.vue')
         },
         {
-          path: '/one-say',
+          path: '/help/one-say',
           component: () => import('./views/OneSay.vue')
         }
       ]
+    }, {
+      path: '/one-say',
+      name: 'preview-onesay',
+      component: () => import('./views/OneSayPage.vue')
     }
   ]
 })
