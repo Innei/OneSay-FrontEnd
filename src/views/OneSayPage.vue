@@ -1,9 +1,10 @@
 <template>
   <div class="page">
     <header>
+      <notice :notices="notices" v-on:pop="liked"></notice>
       <nav>
         <div class="left">
-          <a href="javascript:;">
+          <a href="javascript:;" @click="like">
             <font-awesome-icon class="icon" icon="heart" />
           </a>
         </div>
@@ -17,12 +18,10 @@
 
     <main>
       <div class="container">
-        <transition name="slide-fade" mode="out-in">
-          <p class="content">
-            {{item.content}}
-            <small class="author">{{item.author}}</small>
-          </p>
-        </transition>
+        <p class="content">
+          {{item.content}}
+          <small class="author" v-if="item.author">{{item.author}}</small>
+        </p>
       </div>
     </main>
     <Footer style="border-top: none"></Footer>
@@ -35,17 +34,47 @@ export default {
     return {
       item: {
         content: "",
-        author: ""
-      }
+        author: "",
+        id: ""
+      },
+      notices: []
     };
   },
   components: {
-    Footer: () => import("../components/footer")
+    Footer: () => import("../components/footer"),
+    notice: () => import("../components/notice")
   },
   methods: {
     async getOneSay() {
+      const content = document.querySelector(".content") || "";
+      content ? content.classList.add("loading") : false;
       const item = (await this.$http.get("says")).data.item;
-      [this.item.content, this.item.author] = [item.content, item.author];
+      [this.item.content, this.item.author, this.item.id] = [
+        item.content,
+        item.author,
+        item.id
+      ];
+      content ? content.classList.remove("loading") : false;
+    },
+    async like() {
+      const res = await this.$http.get("says/like", {
+        params: {
+          time: Date.now(),
+          id: this.item.id
+        }
+      });
+      this.notices.push(res.data);
+    },
+    liked() {
+      setTimeout(() => {
+        if (this.notices.length) {
+          const items = document.querySelectorAll(".notice > .item");
+          items[0].classList.remove("active");
+          setTimeout(() => {
+            this.notices.splice(0, 1);
+          }, 600);
+        }
+      }, 3000);
     }
   },
   created() {
@@ -55,17 +84,6 @@ export default {
 </script>
 
 <style scoped>
-.slide-fade-enter-active {
-  transition: all 0.5s ease;
-}
-.slide-fade-leave-active {
-  transition: all 0.5s cubic-bezier(1, 0.5, 0.8, 1);
-}
-.slide-fade-enter,
-.slide-fade-leave-to {
-  transform: translateX(10px);
-  opacity: 0;
-}
 .page {
   min-height: 100vh;
   position: relative;
@@ -129,7 +147,9 @@ main {
 }
 .container p {
   font-size: 1.3rem;
-  padding: 0 3rem;
+  padding: 3rem;
+  background: #ffffffa9;
+  border-radius: 24px;
   width: 80%;
   left: 0;
   right: 0;
@@ -138,20 +158,33 @@ main {
   position: absolute;
   transform: translateY(-50%);
 }
+.container p::before {
+  content: "『";
+  position: absolute;
+  left: 1rem;
+  top: 1rem;
+  font-size: 1.5rem;
+}
+.container p::after {
+  content: "』";
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  font-size: 1.5rem;
+}
 
 .container .author {
   color: rgb(80, 78, 78);
   position: absolute;
-  right: -2vw;
-  bottom: -3rem;
+  right: 3rem;
+  bottom: 1rem;
 }
 @media (max-width: 1000px) {
   .container p {
-    width: 100%;
+    width: 90%;
   }
-  .container .author {
-    right: 5vw;
-    bottom: -2rem;
+  html {
+    font-size: 0.9rem;
   }
 }
 .container .author::before {
@@ -165,5 +198,12 @@ footer {
   align-items: center;
   left: 0;
   right: 0;
+}
+.content {
+  transition: all 0.5s;
+  opacity: 1;
+}
+.content.loading {
+  opacity: 0;
 }
 </style>

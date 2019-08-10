@@ -1,9 +1,9 @@
 import axios from 'axios'
 
-const baseURL = 'http://localhost:8001/api'
+const baseURL = process.env.VUE_APP_API_URL || '/api'
 
 const http = axios.create({
-    baseURL
+  baseURL
 })
 
 export default http
